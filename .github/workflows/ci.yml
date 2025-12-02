@@ -30,10 +30,12 @@ jobs:
             sudo apt-get update
             sudo apt-get install -y cmake
           fi
+
       - name: Setup CMake (Windows)
         if: matrix.os == 'windows-latest'
         run: |
           choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System' -y
+
       - name: Configure
         run: cmake -S . -B build -DBUILD_TESTING=ON
 
@@ -43,7 +45,7 @@ jobs:
       - name: Run tests (Linux/macOS)
         if: matrix.os != 'windows-latest'
         run: ctest --test-dir build --output-on-failure
-
+        
       - name: Run tests (Windows)
         if: matrix.os == 'windows-latest'
         run: ctest --test-dir build --output-on-failure --build-config Release
